@@ -1,0 +1,14 @@
+﻿  main.cpp
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(66,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(67,16): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(68,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(69,20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(84,29): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(85,29): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(86,31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(87,31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(91,25): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(92,25): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(93,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\ADMIN\source\repos\PROJECT GAME\main.cpp(94,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  PROJECT GAME.vcxproj -> C:\Users\ADMIN\source\repos\PROJECT GAME\x64\Debug\PROJECT GAME.exe
