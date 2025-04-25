@@ -12,6 +12,7 @@ public:
     static void fadeIn(SDL_Renderer* renderer, SDL_Texture* texture, int duration);
     static void fadeOut(SDL_Renderer* renderer, SDL_Texture* texture, int duration);
     static void dropIn(SDL_Renderer* renderer, SDL_Texture* texture, int duration);
+    static void LoseScreen(SDL_Renderer* renderer, SDL_Texture* loseTexture, int windowWidth, int windowHeight);
 };
 
 #endif
