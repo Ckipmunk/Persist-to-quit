@@ -40,3 +40,25 @@ void FadeEffect::dropIn(SDL_Renderer* renderer, SDL_Texture* texture, int durati
         SDL_Delay(10);
     }
 }
+
+void FadeEffect::LoseScreen(SDL_Renderer* renderer, SDL_Texture* loseTexture, int windowWidth, int windowHeight) {
+    Uint32 startTime = SDL_GetTicks();
+    const Uint32 fadeDuration = 1000; // 1 giây
+
+    while (true) {
+        Uint32 currentTime = SDL_GetTicks();
+        Uint32 elapsed = currentTime - startTime;
+        if (elapsed >= fadeDuration) break;
+
+        float alpha = static_cast<float>(elapsed) / fadeDuration;
+        alpha = std::min(alpha, 1.0f);
+
+        SDL_SetTextureAlphaMod(loseTexture, static_cast<Uint8>(alpha * 255));
+        SDL_RenderClear(renderer);
+        SDL_Rect fullScreenRect = { 0, 0, windowWidth, windowHeight };
+        SDL_RenderCopy(renderer, loseTexture, nullptr, &fullScreenRect);
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_SetTextureAlphaMod(loseTexture, 255); // Reset alpha
+}
