@@ -1,6 +1,6 @@
 # Persist-to-quit
 
-- Thử nghiệm game: LINK_VIDEO
+- Thử nghiệm game: [LINK_VIDEO](https://drive.google.com/file/d/10Fon0jLJu4D3IoL6VAKH9uUPi1pm7W3t/view?usp=sharing)
 
 # Giới thiệu game
 
