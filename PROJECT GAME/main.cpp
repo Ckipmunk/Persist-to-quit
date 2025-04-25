@@ -1,4 +1,4 @@
-﻿#include "Src/ui/FadeEffect.h"
+#include "Src/ui/FadeEffect.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -756,7 +756,7 @@ void spawnBossZombie(int windowWidth, int windowHeight) {
 
 bool isZombieCollidingWithPlant(const Zombie& zombie, const SDL_Rect& plantRect) {
     SDL_Rect zombieCollider = zombie.rect;
-    zombieCollider.x += 70;
+    zombieCollider.x += 100;
     zombieCollider.w -= 20;
 
     return SDL_HasIntersection(&zombieCollider, &plantRect);
@@ -767,7 +767,7 @@ void updateZombies(int windowWidth, int windowHeight) {
 
     if (gameLost) return;
 
-    if (currentTime - gameStartTime > 600000 &&
+    if (currentTime - gameStartTime > 60000 &&
         std::none_of(zombies.begin(), zombies.end(),
             [](const Zombie& z) { return z.type == ZOMBIE_BOSS; })) {
         spawnBossZombie(windowWidth, windowHeight);
@@ -813,13 +813,15 @@ void updateZombies(int windowWidth, int windowHeight) {
             }
 
             // Then check PeaShooters
-            for (size_t i = 0; i < placedPeaShooters.size(); i++) {
-                auto& plant = placedPeaShooters[i];
-                if (plant.gridRow == zombie.gridRow && isZombieCollidingWithPlant(zombie, plant.rect)) {
-                    zombie.state = ZOMBIE_EATING;
-                    zombie.targetPlantIndex = static_cast<int>(i);
-                    zombie.targetIsSunflower = false;
-                    break;
+            if (zombie.state == ZOMBIE_WALKING) {
+                for (size_t i = 0; i < placedPeaShooters.size(); i++) {
+                    auto& plant = placedPeaShooters[i];
+                    if (plant.gridRow == zombie.gridRow && isZombieCollidingWithPlant(zombie, plant.rect)) {
+                        zombie.state = ZOMBIE_EATING;
+                        zombie.targetPlantIndex = static_cast<int>(i);
+                        zombie.targetIsSunflower = false;
+                        break;
+                    }
                 }
             }
 
@@ -836,11 +838,48 @@ void updateZombies(int windowWidth, int windowHeight) {
                 }
             }
         }
-        else if (zombie.state == ZOMBIE_EATING && zombie.targetPlantIndex >= 0) {
+        else if (zombie.state == ZOMBIE_EATING) {
             if (currentTime > zombie.lastFrameTime + ZOMBIE_FRAME_DELAY) {
                 zombie.currentFrame = (zombie.currentFrame + 1) % zombieEatFrames.size();
                 zombie.lastFrameTime = currentTime;
 
+                // Kiểm tra xem cây mục tiêu có còn tồn tại và zombie có còn va chạm với nó không
+                bool shouldContinueEating = false;
+                SDL_Rect targetRect;
+
+                if (!zombie.targetIsSunflower) {
+                    if (zombie.targetPlantIndex < placedWalnuts.size()) {
+                        auto& target = placedWalnuts[zombie.targetPlantIndex];
+                        targetRect = target.rect;
+                        if (target.gridRow == zombie.gridRow && isZombieCollidingWithPlant(zombie, targetRect)) {
+                            shouldContinueEating = true;
+                        }
+                    }
+                    else if (zombie.targetPlantIndex < placedPeaShooters.size()) {
+                        auto& target = placedPeaShooters[zombie.targetPlantIndex];
+                        targetRect = target.rect;
+                        if (target.gridRow == zombie.gridRow && isZombieCollidingWithPlant(zombie, targetRect)) {
+                            shouldContinueEating = true;
+                        }
+                    }
+                }
+                else {
+                    if (zombie.targetPlantIndex < placedSunflowers.size()) {
+                        auto& target = placedSunflowers[zombie.targetPlantIndex];
+                        targetRect = target.rect;
+                        if (target.gridRow == zombie.gridRow && isZombieCollidingWithPlant(zombie, targetRect)) {
+                            shouldContinueEating = true;
+                        }
+                    }
+                }
+
+                if (!shouldContinueEating) {
+                    zombie.state = ZOMBIE_WALKING;
+                    zombie.targetPlantIndex = -1;
+                    continue; // Chuyển sang WALKING và bỏ qua phần ăn cây
+                }
+
+                // Tiếp tục ăn cây nếu vẫn còn va chạm
                 if (currentTime - zombie.lastEatTime > 1000) {
                     int damage = 10;
                     if (zombie.type == ZOMBIE_CONE) {
