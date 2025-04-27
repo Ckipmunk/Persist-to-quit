@@ -523,7 +523,7 @@ bool canPlacePlant(int x, int y, int cost, bool isUpgrade = false, bool isSunflo
         else {
             for (auto& peaShooter : placedPeaShooters) {
                 if (peaShooter.gridRow == row && peaShooter.gridCol == col) {
-                    return peaShooter.level < 4;
+                    return peaShooter.level < 3;
                 }
             }
             return false;
